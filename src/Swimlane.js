@@ -1,27 +1,21 @@
 import React from 'react';
-import Card from './Card';
-import './Swimlane.css';
 
-export default class Swimlane extends React.Component {
-  render() {
-    const cards = this.props.clients.map(client => {
-      return (
-        <Card
+const Swimlane = ({ name, clients, dragulaRef, getClassName }) => {
+  return (
+    <div className="Swimlane Swimlane-column" data-status={name.toLowerCase()} ref={dragulaRef}>
+      <h2>{name}</h2>
+      {clients.map(client => (
+        <div
           key={client.id}
-          id={client.id}
-          name={client.name}
-          description={client.description}
-          status={client.status}
-        />
-      );
-    })
-    return (
-      <div className="Swimlane-column">
-        <div className="Swimlane-title">{this.props.name}</div>
-        <div className="Swimlane-dragColumn" ref={this.props.dragulaRef}>
-          {cards}
+          className={`card ${getClassName(client.status)}`}
+          data-id={client.id}
+        >
+          <h3>{client.name}</h3>
+          <p>{client.description}</p>
         </div>
-      </div>);
-  }
+      ))}
+    </div>
+  );
+};
 
-}
+export default Swimlane;
